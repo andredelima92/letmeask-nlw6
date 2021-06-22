@@ -1,7 +1,8 @@
-import Button from "./components/Button";
+import Home from "./pages/Home";
+import "./styles/global.css";
 
 function App() {
-  return <Button text="Botão 1" />;
+  return <Home />;
 }
 
 export default App;
