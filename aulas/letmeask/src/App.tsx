@@ -1,8 +1,15 @@
+import { BrowserRouter, Route } from "react-router-dom";
+
 import Home from "./pages/Home";
-import "./styles/global.css";
+import NewRoom from "./pages/NewRoom";
 
 function App() {
-  return <Home />;
+  return (
+    <BrowserRouter>
+      <Route path="/" exact component={Home} />
+      <Route path="/rooms/new" component={NewRoom} />
+    </BrowserRouter>
+  );
 }
 
 export default App;
