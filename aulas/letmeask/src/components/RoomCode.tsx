@@ -2,13 +2,21 @@ import copyImg from "../assets/images/copy.svg";
 
 import "../styles/room-code.scss";
 
-const RoomCode: React.FC = () => {
+type RoomCodeProps = {
+  code: string;
+};
+
+const RoomCode: React.FC<RoomCodeProps> = ({ code }) => {
+  function copyRoomCodeToClipBoard() {
+    navigator.clipboard.writeText(code);
+  }
+
   return (
-    <button className="room-code">
+    <button className="room-code" onClick={copyRoomCodeToClipBoard}>
       <div>
         <img src={copyImg} alt="Copy room code" />
       </div>
-      <span>Sala #644131654as</span>
+      <span>Sala #{code}</span>
     </button>
   );
 };
