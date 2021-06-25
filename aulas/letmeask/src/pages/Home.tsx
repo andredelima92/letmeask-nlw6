@@ -9,6 +9,7 @@ import "../styles/auth.scss";
 import Button from "../components/Button";
 import { useAuth } from "../hooks/useAuth";
 import { database } from "../services/firebase";
+import toast from "react-hot-toast";
 
 const Home: React.FC = () => {
   const history = useHistory();
@@ -31,7 +32,11 @@ const Home: React.FC = () => {
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
     if (!roomRef.exists()) {
-      return alert("Room does not exists");
+      return toast.error("Room does not exists");
+    }
+
+    if (roomRef.val().endedAt) {
+      return toast.error("Room already closed");
     }
 
     history.push(`/rooms/${roomCode}`);
