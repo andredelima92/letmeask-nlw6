@@ -1,14 +1,12 @@
-import { FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
 
 import logoImg from "../assets/images/logo.svg";
+import deleteImg from "../assets/images/delete.svg";
 import Button from "../components/Button";
 import RoomCode from "../components/RoomCode";
-import { useAuth } from "../hooks/useAuth";
+// import { useAuth } from "../hooks/useAuth";
 
 import "../styles/room.scss";
-import { database } from "../services/firebase";
 import Question from "../components/Question";
 import { useRoom } from "../hooks/useRoom";
 
@@ -17,33 +15,14 @@ type RoomParams = {
 };
 
 const AdminRoom: React.FC = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const params = useParams<RoomParams>();
   const roomId = params.id;
-  const [newQuestion, setNewQuestion] = useState("");
   const { questions, title } = useRoom(roomId);
 
-  async function handleSendQuestion(e: FormEvent) {
-    e.preventDefault();
-    if (newQuestion.trim() === "") return;
+  // const handleDeleteQuestion = (questionId: string) => {
 
-    if (!user) {
-      return toast.error("You must be logged in.");
-    }
-
-    const question = {
-      content: newQuestion,
-      author: {
-        name: user?.name,
-        avatar: user.avatar,
-      },
-      isHighlighted: false,
-      isAnswered: false,
-    };
-
-    await database.ref(`rooms/${roomId}/questions`).push(question);
-    setNewQuestion("");
-  }
+  // }
 
   return (
     <div id="page-room">
@@ -69,7 +48,14 @@ const AdminRoom: React.FC = () => {
               key={question.id}
               content={question.content}
               author={question.author}
-            />
+            >
+              <button
+                type="button"
+                onClick={() => handleDeleteQuestion(question.id)}
+              >
+                <img src={deleteImg} alt="Remover pergunta" />
+              </button>
+            </Question>
           ))}
         </div>
       </main>
